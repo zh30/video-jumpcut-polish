@@ -1,0 +1,20 @@
+{
+  "name": "video-jumpcut-polish",
+  "displayName": "Video Jump-Cut Polish & Publish Kit",
+  "version": "1.0.0",
+  "description": "End-to-end automated macOS video editor and pre-publish packaging pipeline for talking-head videos, video podcasts, and product unboxings: jump-cut cleanup, Apple Neural Engine voice isolation, HDR-to-SDR color mapping, Retina subtitles, subject-faithful high-CTR covers, and 5-platform SEO copywriting.",
+  "author": {
+    "name": "Henry Zhang",
+    "url": "https://github.com/zh30"
+  },
+  "homepage": "https://github.com/zh30/video-jumpcut-polish",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/zh30/video-jumpcut-polish.git"
+  },
+  "suggestedPrompts": [
+    "Polish this raw talking-head video: cut pauses and filler words, denoise my voice, add subtitles, and generate covers and publishing copy",
+    "Edit this video podcast episode with natural breathing room, -16 LUFS broadcast loudness, Show Notes chapters, and golden quotes",
+    "Clean up this product unboxing video, blur any private info on my desk, and build a ready-to-publish bundle for YouTube, Bilibili, and Xiaohongshu"
+  ]
+}

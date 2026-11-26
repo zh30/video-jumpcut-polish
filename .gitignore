@@ -1,0 +1,24 @@
+# Compiled native macOS Swift binaries (auto-compiled on first run via swiftc)
+**/scripts/.bin/
+
+# Python artifacts
+__pycache__/
+*.py[cod]
+*.egg-info/
+
+# macOS & editor clutter
+.DS_Store
+.AppleDouble
+.LSOverride
+*.swp
+.vscode/
+.idea/
+
+# Local test media / outputs
+*.mp4
+*.mov
+*.wav
+*.mp3
+*.m4a
+*.srt
+*.fcpxml
