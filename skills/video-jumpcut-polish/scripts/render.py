@@ -340,7 +340,7 @@ def build_zoom_filter(segs: list[dict], width: int, height: int) -> list[str]:
         y_expr = f"if(between(n,{a},{b}),{zy:.3f},{y_expr})"
     return [
         f"scale=w='trunc({width}*({z_expr})/2)*2':h='trunc({height}*({z_expr})/2)*2':eval=frame",
-        f"crop={width}:{height}:(iw-{width})/2:(ih-{height})*({y_expr})",
+        f"crop=w={width}:h={height}:x='(iw-{width})/2':y='(ih-{height})*({y_expr})'",
     ]
 
 
