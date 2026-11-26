@@ -1,5 +1,7 @@
 # Video Jump-Cut Polish & Publish Kit
 
+> **Built natively for macOS creators** (`macOS 14+ Sonoma` · Apple Silicon M1–M4+ recommended · Zero Python third-party dependencies · MIT License)
+
 An end-to-end **Agent Skill** (compatible with Antigravity, Claude Code, Cursor, Codex, and other Agent Skills-compatible agents) that turns raw camera footage into a complete, ready-to-publish delivery bundle on macOS.
 
 Drop in a single raw video — whether a **solo talking-head**, **video podcast**, or **product unboxing/review** — and get back a polished video, broadcast-mastered audio, subtitles, subject-faithful high-CTR covers, and SEO-audited publishing copy for **YouTube, Bilibili, Xiaohongshu, Douyin, and WeChat Channels**.
@@ -69,10 +71,19 @@ Every run produces a clean delivery folder alongside your source video without e
 
 ---
 
-## Requirements
+## Requirements & Device Compatibility
 
-### Required
-- **macOS** (Apple Silicon recommended; Intel Mac also supported — native Swift helpers rely on Apple `AVAudioEngine`/`AUSoundIsolation`, `Vision`, `CoreText`, and `VideoToolbox`)
+### Supported Devices
+
+| Platform | Support Level | Notes |
+| :--- | :--- | :--- |
+| **Apple Silicon Mac (M1–M4+) + macOS 14+ (Sonoma/Sequoia)** | **Full (Recommended)** | Full hardware pipeline: Apple Neural Engine `AUSoundIsolation`, Apple Vision subject cutout, CoreText Retina subtitles, and VideoToolbox 4K encoding. |
+| **Intel Mac + macOS 14+** | **Supported (CPU/FFmpeg denoise fallback)** | Video editing, subtitles, Vision cutout, covers, and copywriting work normally; `AUSoundIsolation` automatically falls back to FFmpeg denoising if unavailable. |
+| **macOS < 14.0** | **Partial** | Apple Vision foreground cutout (`VNGenerateForegroundInstanceMaskRequest`) requires macOS 14+ and is skipped automatically on older releases. |
+| **Windows / Linux** | **Not currently supported** | Core video, audio isolation, subtitle rendering, and cutout helpers rely directly on native Apple macOS frameworks (`AVAudioEngine`, `Vision`, `CoreText`, `VideoToolbox`) for zero-install speed. |
+
+### Required Tools (macOS)
+- **macOS 14.0+** (Apple Silicon strongly recommended)
 - **Xcode Command Line Tools** (`swiftc`):
   ```bash
   xcode-select --install
