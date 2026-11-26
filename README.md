@@ -109,7 +109,7 @@ Instead of forcing one rigid template onto every recording, the agent classifies
 | # | Capability | Engine / Script | What It Does |
 | :-: | :--- | :--- | :--- |
 | **1** | **Fast 2s Media Analysis** | `analyze.py` | Keyframe-only overview contact sheet (`-skip_frame nokey`), HDR/VFR probe, compact MP3 audition track, and 10 ms RMS pause timeline. |
-| **2** | **Frame-Accurate Jump-Cuts** | `inspect_regions.py` + `render.py` | Strips pauses, verbal tics, stutters, restarts, and heavy breaths with 12 ms cosine micro-fades and verified `0.0 ms` A/V sync. |
+| **2** | **Semantic Jump-Cuts & Pause Protection** | `inspect_regions.py` + `render.py` | Multimodal audio + visual judgment (not blind volume-threshold slicing): cuts mid-clause stumbles, fillers, and dead air while **preserving intentional rhetorical/emotional pauses (`0.45–0.70s`)** and visual reveals with `0.0 ms` A/V sync. |
 | **3** | **Apple Neural Engine Voice Mastering** | `voice_isolate.swift` + `render.py` | Native macOS `AUSoundIsolation` (same ML denoise/dereverb engine as Final Cut Pro, latency-compensated) + 6-band broadcast EQ + optical compressor + 2-pass linear `-15 / -16 LUFS` loudnorm. |
 | **4** | **Visual Privacy Protection** | `render.py` (`--blur-region`) | Scans frames for readable monitors, shipping labels, chat windows, or QR codes and applies local Gaussian blur in the same render pass. |
 | **5** | **Platform-Safe HDR → SDR Color** | `render.py` (`--color sdr`) | Converts 10-bit BT.2020 HLG/PQ footage to Apple-accurate Rec.709 SDR + subtle contrast/saturation/unsharp grade so feeds never blow out highlights. |

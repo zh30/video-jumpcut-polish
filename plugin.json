@@ -1,7 +1,7 @@
 {
   "name": "video-jumpcut-polish",
   "displayName": "Video Jump-Cut Polish & Publish Kit",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "End-to-end automated macOS video editor and pre-publish packaging pipeline for talking-head videos, video podcasts, and product unboxings: jump-cut cleanup, Apple Neural Engine voice isolation, HDR-to-SDR color mapping, Retina subtitles, subject-faithful high-CTR covers, and 5-platform SEO copywriting.",
   "author": {
     "name": "Henry Zhang",

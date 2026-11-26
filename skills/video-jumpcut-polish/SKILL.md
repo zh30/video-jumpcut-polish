@@ -51,7 +51,7 @@ the video into one of 3 genres and automatically apply its tailored defaults
 | Feature | Implementation / Default | Notes |
 | :--- | :--- | :--- |
 | **1. Fast 2s media analysis** | `analyze.py` (`-skip_frame nokey`) | Probes specs/HDR/VFR, extracts 48k WAV + compact MP3(s), 10ms pause timeline, keyframe overview sheet |
-| **2. Jump-cut pauses, fillers, stutters** | `inspect_regions.py` + `cutlist.json` | Removes `嗯/啊/呃/哎`, sentence-initial `然后/就是/那个`, stutters, restarts, heavy breaths; keeps natural `0.12–0.38s` pacing and tactile unboxing actions; 12ms cosine micro-fades |
+| **2. Semantic jump-cuts + intentional pause preservation** | `inspect_regions.py` + `cutlist.json` | Multimodal audio + visual classification: cuts mid-clause stumbles, restarts, fillers (`嗯/啊/呃/哎`, sentence-initial `然后/就是/那个`), and dead air while **preserving intentional rhetorical/emotional pauses** (`0.45–0.70s` after punchlines, rhetorical questions, twists, or visual reveals) with 12ms cosine micro-fades |
 | **3. Apple Neural Engine denoise + 2-pass broadcast voice** | `render.py` default ON (`--isolate 80 --lufs -15`) | Stage-1 macOS `AUSoundIsolation` (0ms latency-compensated, FCP-grade ML denoise & dereverb; use `75–85` for unboxing, `90–100` for noisy rooms) + Stage-2 6-band broadcast EQ + optical compressor + 2-pass linear `-15 LUFS / -1.5 dBTP` loudnorm (`--no-voice-enhance` to disable) |
 | **4. Visual privacy scan & local Gaussian blur** | Inspect `contact_sheet.jpg` → `--blur-region "x,y,w,h"` | Automatically check for readable computer monitors, courier address labels, phone popups, or QR codes; if spotted, apply normalized `--blur-region` (e.g. `"0,0,1.0,0.22"`) cleanly in the same render pass |
 | **5. Platform-safe SDR color + subtle grade** | `render.py` default ON (`--color sdr`, `--grade`) | Converts iPhone 10-bit HLG/PQ HDR to Apple-matched Rec.709 SDR so Douyin/Xiaohongshu/Bilibili never blow out, plus subtle +4% contrast / +5% saturation / crisp unsharp (use `--color keep` for native HDR, `--no-grade` to disable) |
@@ -96,9 +96,9 @@ Call `read_file` in parallel on `$WORK_DIR/audio_full.mp3` (or parts),
 1. **Privacy check**: Examine `contact_sheet.jpg` for readable monitors, address
    labels, chat windows, or QR codes. If present, record normalized
    `--blur-region "x,y,w,h"` boxes (e.g., `"0,0,1.0,0.22"` for top monitors).
-2. **Speech cleanup**: Mark fillers (`嗯/啊/呃/哎`, sentence-initial `然后`),
-   stutters, restarts, heavy breaths, and dead air while preserving key visual
-   actions (unboxing reveals, clicks).
+2. **Speech cleanup & intentional pause preservation (never cut blindly by volume!)**:
+   - **Cut (accidental dead air / stumbles)**: mid-clause hesitations, trailing word drags (`就是——`), fillers (`嗯/啊/呃/哎`, sentence-initial `然后`), false starts/restarts, heavy breaths, or pauses where the speaker glances away at notes/teleprompter.
+   - **Preserve & sculpt (intentional pauses / beats)**: pauses occurring after a **complete sentence** — especially rhetorical questions, punchlines, plot twists, or emotional takeaways — where prosody ends decisively (rising question or firm drop, no filler) and/or visual frames show direct eye contact, expressive reaction (smile, brow raise, shrug), or meaningful physical action (unboxing clicks, product reveals). Keep `0.45–0.70s` of breathing room rather than crushing them to `0.15s` (only gently trim extreme `> 1.5s` gaps).
 3. **Hero frame & structure**: Pick the cleanest hero timestamp (edited timeline)
    for covers, topic-shift segments for `"zoom": 1.12`, and logical chapters.
 
@@ -115,8 +115,10 @@ to lock exact boundaries.
 ### Step 4: Write `cutlist.json` & Audit Audio Preview (`~4s`)
 
 Write `$WORK_DIR/cutlist.json` (include `"zoom": 1.12` on 3–6 narrative shift
-segments; follow comfortable pacing: `0.10–0.16s` mid-sentence, `0.18–0.28s`
-clause, `0.30–0.42s` topic break, `>= 0.25s` tail safety after final syllable):
+segments; sculpt pause lengths by intent rather than flat-cutting: `0.10–0.16s`
+mid-sentence, `0.18–0.28s` clause, `0.30–0.42s` topic break, **`0.45–0.70s`
+intentional rhetorical/dramatic pause**, `>= 0.25s` tail safety after final
+syllable):
 
 ```bash
 python3 "$SKILL_DIR/scripts/render.py" \
